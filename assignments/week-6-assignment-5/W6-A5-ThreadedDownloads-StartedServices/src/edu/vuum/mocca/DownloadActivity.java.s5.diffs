@@ -1,0 +1,44 @@
+5d4
+< import android.content.Intent;
+8d6
+< import android.util.Log;
+10a9,10
+> import android.content.Intent;
+> 
+83d82
+<             	
+108,112d106
+<         Intent intent = null;
+<         String url = getUrlString();
+<         
+<         Log.d(DownloadActivity.class.getSimpleName(),
+<                 "Downloading " + url);
+119,127c113,115
+<             // Obtain the requested URL from the user input.
+< 
+<             // Create an Intent to download an image in the background via
+<             // a Service.
+<             intent = DownloadIntentService.makeIntent(this,
+<                 								handler,
+<                 								url);
+< 
+<             which = "Starting IntentService";
+---
+>             Intent downloadIntent = DownloadIntentService.makeIntent(this, handler, getUrlString());
+>             startService(downloadIntent);
+>             which = "Starting DownloadIntentService";
+134,138c122,123
+<             intent = ThreadPoolDownloadService.makeIntent(this,
+<             								handler,
+<             								url);
+<            
+< 
+---
+>             Intent threadPoolDownloadIntent = ThreadPoolDownloadService.makeIntent(this, handler, getUrlString());
+>             startService(threadPoolDownloadIntent);
+144,148d128
+<         // Start the DownloadService.
+<     	if (intent != null) 
+<     		startService(intent);
+< 
+< 

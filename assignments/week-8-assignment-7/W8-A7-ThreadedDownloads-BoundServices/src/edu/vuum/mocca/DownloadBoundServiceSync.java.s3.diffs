@@ -1,0 +1,9 @@
+54c54,55
+<                 return null;
+---
+>             	String filePath = DownloadUtils.downloadFile(getApplicationContext(), uri);
+>                 return filePath;
+77c78
+<         return null;
+---
+>     	return new Intent(context, DownloadBoundServiceSync.class);

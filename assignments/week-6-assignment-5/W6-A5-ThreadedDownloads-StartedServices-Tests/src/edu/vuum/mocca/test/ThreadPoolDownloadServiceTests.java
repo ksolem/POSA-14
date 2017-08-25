@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.test.ServiceTestCase;
+import edu.vuum.mocca.DownloadIntentService;
 import edu.vuum.mocca.DownloadUtils;
 import edu.vuum.mocca.ThreadPoolDownloadService;
 
@@ -140,9 +141,9 @@ public class ThreadPoolDownloadServiceTests
         Thread.sleep(Options.SHORT_WAIT_TIME);	
 
         //Create an Intent to start the service
-        mIntent = ThreadPoolDownloadService.makeIntent(getContext(), 
-                                                       mHandler, 
-                                                       Options.TEST_URI);        
+        mIntent = DownloadIntentService.makeIntent(getContext(), 
+                mHandler, 
+                Options.TEST_URI);        
 
         // Start the service
         startService(mIntent);

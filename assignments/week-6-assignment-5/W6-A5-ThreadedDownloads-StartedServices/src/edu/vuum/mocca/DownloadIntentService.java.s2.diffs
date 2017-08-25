@@ -1,0 +1,26 @@
+6d5
+< import android.net.Uri;
+66,69d64
+<     	return DownloadUtils.makeMessengerIntent(context,
+<                 							DownloadIntentService.class,
+<                 							handler,
+<                 							uri);
+70a66
+>         return DownloadUtils.makeMessengerIntent(context, DownloadIntentService.class, handler, uri);
+93,105c89,90
+<     	
+<         // extract file name
+<         Uri uri = intent.getData();
+< 
+<         // Extract the Messenger.
+<         Messenger messenger = (Messenger)
+<                 intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+< 
+<         // Download the requested image..
+<         
+<         DownloadUtils.downloadAndRespond(getBaseContext(),
+<                 uri,
+<                 messenger);
+---
+>     	Messenger messenger = (Messenger) intent.getExtras().get(DownloadUtils.MESSENGER_KEY); 
+>     	DownloadUtils.downloadAndRespond(getApplicationContext(), intent.getData(), messenger);

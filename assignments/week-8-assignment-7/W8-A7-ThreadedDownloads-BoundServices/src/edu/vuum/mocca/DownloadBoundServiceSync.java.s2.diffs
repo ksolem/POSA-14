@@ -1,0 +1,14 @@
+9a10
+> import android.util.Log;
+53a55,59
+>             	String path = DownloadUtils.downloadFile(getApplicationContext(), uri);
+>             	if (path != null && !path.isEmpty()) {
+>                     return path;
+>             	} else {
+>             		Log.e("DownloadBoundServiceSync", "Sync downloadFile error: null path");
+55a62
+>             }
+77c84
+<         return null;
+---
+>         return new Intent(context, DownloadBoundServiceSync.class);

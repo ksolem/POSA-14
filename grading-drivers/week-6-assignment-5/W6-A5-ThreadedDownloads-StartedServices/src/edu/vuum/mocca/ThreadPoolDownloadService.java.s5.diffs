@@ -1,0 +1,31 @@
+9,10d8
+< import android.net.Uri;
+< import android.os.AsyncTask;
+53d50
+< 
+79,82c76
+<                 							ThreadPoolDownloadService.class,
+<                 							handler,
+<                 							uri);
+< 
+---
+>                 ThreadPoolDownloadService.class, handler, uri);
+101a96
+>             @Override
+103,114c98,100
+<         		// extract file name
+<                 Uri uri = intent.getData();
+< 
+<                 // Extract the Messenger.
+<                 Messenger messenger = (Messenger)
+<                         intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+< 
+<                 // Download the requested image..
+<                 
+<                 DownloadUtils.downloadAndRespond(getBaseContext(),
+<                         uri,
+<                         messenger);
+---
+>                 Messenger messenger =
+>                     (Messenger) intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+>                 DownloadUtils.downloadAndRespond(getApplicationContext(), intent.getData(), messenger);

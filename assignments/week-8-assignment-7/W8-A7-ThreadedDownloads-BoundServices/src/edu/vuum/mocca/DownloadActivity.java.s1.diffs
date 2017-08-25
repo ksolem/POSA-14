@@ -1,0 +1,51 @@
+5a6
+> import android.os.AsyncTask;
+79c80
+<                 mDownloadCall = null;
+---
+>                 mDownloadCall = DownloadCall.Stub.asInterface((IBinder)service);
+112c113
+<                 mDownloadRequest = null;
+---
+>                 mDownloadRequest = DownloadRequest.Stub.asInterface((IBinder)service);
+148c149,156
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable() {
+>                 	@Override
+>                 	public void run() {
+>                 		displayBitmap(imagePathname);
+>                 	}
+>                 };
+>                 
+>                 runOnUiThread(displayRunnable);
+164a173
+>             new DownloadCallTask().execute(uri);
+170a180,184
+>         	try {
+> 				mDownloadRequest.downloadImage(uri, mDownloadCallback);
+> 			} catch (RemoteException e) {
+> 				e.printStackTrace();
+> 			}
+235a250,270
+>     private class DownloadCallTask extends AsyncTask<Uri, Void, String> {
+> 
+> 		@Override
+> 		protected String doInBackground(final Uri... params) {
+> 			Uri taskUri = params[0];
+> 			String imageUrl = "";
+> 			try {
+> 				imageUrl = mDownloadCall.downloadImage(taskUri);
+> 			} catch (RemoteException e) {
+> 				e.printStackTrace();
+> 				return null;
+> 			}
+> 			return imageUrl;
+> 		}
+> 		
+> 		@Override
+> 		protected void onPostExecute(final String params) {
+> 			displayBitmap(params);
+> 		}
+> 	}
+>     

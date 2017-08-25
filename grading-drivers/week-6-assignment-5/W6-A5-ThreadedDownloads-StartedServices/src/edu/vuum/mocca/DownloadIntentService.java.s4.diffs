@@ -1,0 +1,130 @@
+6d5
+< import android.net.Uri;
+13,25c12,23
+<  * @brief This class extends the IntentService, which provides a
+<  *        framework that simplifies programming and processing Android
+<  *        Started Services concurrently.
+<  * 
+<  *        DownloadIntentService receives an Intent containing a URL
+<  *        (which is a type of URI) and a Messenger (which is an IPC
+<  *        mechanism). It downloads the file at the URL, stores it on
+<  *        the file system, then returns the path name to the caller
+<  *        using the supplied Messenger.
+<  * 
+<  *        The IntentService class implements the CommandProcessor
+<  *        pattern and the Template Method Pattern.  The Messenger is
+<  *        used as part of the Active Object pattern.
+---
+>  * @brief This class extends the IntentService, which provides a framework that
+>  *        simplifies programming and processing Android Started Services
+>  *        concurrently.
+>  * 
+>  *        DownloadIntentService receives an Intent containing a URL (which is a
+>  *        type of URI) and a Messenger (which is an IPC mechanism). It downloads
+>  *        the file at the URL, stores it on the file system, then returns the
+>  *        path name to the caller using the supplied Messenger.
+>  * 
+>  *        The IntentService class implements the CommandProcessor pattern and
+>  *        the Template Method Pattern. The Messenger is used as part of the
+>  *        Active Object pattern.
+29,31c27,28
+<      * The default constructor for this service. Simply forwards
+<      * construction to IntentService, passing in a name for the Thread
+<      * that the service runs in.
+---
+> 	 * The default constructor for this service. Simply forwards construction to
+> 	 * IntentService, passing in a name for the Thread that the service runs in.
+38,39c35,36
+<      * Optionally allow the instantiator to specify the name of the
+<      * thread this service runs in.
+---
+> 	 * Optionally allow the instantiator to specify the name of the thread this
+> 	 * service runs in.
+41c38
+<     public DownloadIntentService(String name) {
+---
+> 	public DownloadIntentService(final String name) {
+46,47c43,44
+<      * Make an intent that will start this service if supplied to
+<      * startService() as a parameter.
+---
+> 	 * Make an intent that will start this service if supplied to startService()
+> 	 * as a parameter.
+49,52c46,52
+<      * @param context		The context of the calling component.
+<      * @param handler		The handler that the service should
+<      *                          use to respond with a result  
+<      * @param uri               The web URL of a file to download
+---
+> 	 * @param context
+> 	 *            The context of the calling component.
+> 	 * @param handler
+> 	 *            The handler that the service should use to respond with a
+> 	 *            result
+> 	 * @param uri
+> 	 *            The web URL of a file to download
+60,62c60,61
+<     public static Intent makeIntent(Context context,
+<                                     Handler handler,
+<                                     String uri) {
+---
+> 	public static Intent makeIntent(final Context context,
+> 			final Handler handler, final String uri) {
+66,69d64
+<     	return DownloadUtils.makeMessengerIntent(context,
+<                 							DownloadIntentService.class,
+<                 							handler,
+<                 							uri);
+70a66,67
+> 		return DownloadUtils.makeMessengerIntent(context,
+> 				DownloadIntentService.class, handler, uri);
+74,85c71,81
+<      * Hook method called when a component calls startService() with
+<      * the proper intent.  This method serves as the Executor in the
+<      * Command Processor Pattern. It receives an Intent, which serves
+<      * as the Command, and executes some action based on that intent
+<      * in the context of this service.
+<      * 
+<      * This method is also a Hook Method in the Template Method
+<      * Pattern. The Template class has an overall design goal and
+<      * strategy, but it allows subclasses to how some steps in the
+<      * strategy are implemented. For example, IntentService handles
+<      * the creation and lifecycle of a started service, but allows a
+<      * user to define what happens when an Intent is actually handled.
+---
+> 	 * Hook method called when a component calls startService() with the proper
+> 	 * intent. This method serves as the Executor in the Command Processor
+> 	 * Pattern. It receives an Intent, which serves as the Command, and executes
+> 	 * some action based on that intent in the context of this service.
+> 	 * 
+> 	 * This method is also a Hook Method in the Template Method Pattern. The
+> 	 * Template class has an overall design goal and strategy, but it allows
+> 	 * subclasses to how some steps in the strategy are implemented. For
+> 	 * example, IntentService handles the creation and lifecycle of a started
+> 	 * service, but allows a user to define what happens when an Intent is
+> 	 * actually handled.
+88c84
+< 	protected void onHandleIntent (Intent intent) {
+---
+> 	protected void onHandleIntent(final Intent intent) {
+93,105c89,94
+<     	
+<         // extract file name
+<         Uri uri = intent.getData();
+< 
+<         // Extract the Messenger.
+<         Messenger messenger = (Messenger)
+<                 intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+< 
+<         // Download the requested image..
+<         
+<         DownloadUtils.downloadAndRespond(getBaseContext(),
+<                 uri,
+<                 messenger);
+---
+> 		DownloadUtils
+> 				.downloadAndRespond(
+> 						getBaseContext(),
+> 						intent.getData(),
+> 						(Messenger) intent.getExtras().get(
+> 								DownloadUtils.MESSENGER_KEY));

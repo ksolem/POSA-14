@@ -1,0 +1,11 @@
+52,53c52,53
+<         <!-- THIS IS THE SOUND RECORD ACTIVITY -->
+<         <activity
+---
+>         <!-- THIS IS THE SOUND RECORD ACTIVITY --> <!-- I add permission check, only activity with same permission can record sound -->
+>         <activity android:permission="android.permission.RECORD_AUDIO"
+55,56c55
+<             android:label="@string/title_activity_sound_record"
+<             android:permission="android.permission.RECORD_AUDIO">
+---
+>             android:label="@string/title_activity_sound_record">

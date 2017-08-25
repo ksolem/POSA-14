@@ -1,0 +1,14 @@
+12c12
+<     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Line 12 -->
+---
+>     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />  Line 12 -->
+56,59c56,59
+<             android:permission="android.permission.RECORD_AUDIO">
+<             <intent-filter> 										<!-- Line 56 -->
+<                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+<             </intent-filter>
+---
+>             android:exported="false">
+> 			<!-- Removed intent filter as it was not used by the app and the presence of it 
+> 			made the SoundRecordActivity exported, which meant it could be started by other apps. 
+> 			Added exported=false for extra clarification, it's not needed  -->

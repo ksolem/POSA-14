@@ -1,0 +1,13 @@
+8a9
+> import android.util.Log;
+54a56,61
+>             	String path = DownloadUtils.downloadFile(getApplicationContext(), uri);
+>             	if (path != null && !path.isEmpty()) {
+>                 	callback.sendPath(path);
+>             	} else {
+>             		Log.e("DownloadBoundServiceAsync", "Async downloadFile error: null path");
+>             	}
+78c85
+<         return null;
+---
+>         return new Intent (context, DownloadBoundServiceAsync.class);

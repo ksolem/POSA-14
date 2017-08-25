@@ -1,0 +1,8 @@
+8a9
+> import android.util.Log;
+54a56
+>                 callback.sendPath(DownloadUtils.downloadFile(getApplicationContext(), uri));
+78c80
+<         return null;
+---
+>         return new Intent(context, DownloadBoundServiceAsync.class);

@@ -1,0 +1,9 @@
+54c54
+<                 return null;
+---
+>             	return DownloadUtils.downloadFile(getBaseContext(), uri);
+77c77,78
+<         return null;
+---
+>         return new Intent(context,
+>                 DownloadBoundServiceSync.class);

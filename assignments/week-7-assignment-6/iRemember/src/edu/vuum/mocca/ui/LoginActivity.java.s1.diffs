@@ -1,0 +1,12 @@
+29c29
+< 	static final int MAX_SECURITY = Integer.MAX_VALUE;
+---
+> 	static final int MAX_SECURITY = StorageUtilities.SECURITY_PRIVATE;  //Integer.MAX_VALUE; //I fix constant MAX_SECURITY declaration
+48c48
+< 		return StorageUtilities.getOutputMediaFile(context, 	// Line 48
+---
+> 		return StorageUtilities.getOutputMediaFile(context, 	// Line 48 // I fix constant MAX_SECURITY declaration
+50c50
+< 				StorageUtilities.SECURITY_PRIVATE, 
+---
+> 				MAX_SECURITY, 

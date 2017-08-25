@@ -1,0 +1,46 @@
+9a10
+> import android.os.AsyncTask;
+79c80
+<                 mDownloadCall = null;
+---
+>                 mDownloadCall = DownloadCall.Stub.asInterface(service);
+112c113
+<                 mDownloadRequest = null;
+---
+>                 mDownloadRequest = DownloadRequest.Stub.asInterface(service);
+148c149,154
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable() {
+>                     public void run() {
+>                         displayBitmap(imagePathname);
+>                     }
+>                 };
+>                 DownloadActivity.this.runOnUiThread(displayRunnable);
+164a171,188
+>             if (mDownloadCall != null) {
+>                 // Create an AsyncTask for the two-way call so that it doesn't take too
+>                 // long in this, the UI thread.
+>                 new AsyncTask<Uri, Void, String> () {
+>                     protected String doInBackground(Uri... uris) {
+>                         try {
+>                             return mDownloadCall.downloadImage(uris[0]);
+>                         } catch (RemoteException e) {
+>                             e.printStackTrace();
+>                         }
+>                         return null;
+>                     }
+>                     protected void onPostExecute(String filePath) {
+>                         // This is executed in the UI thread.
+>                         displayBitmap(filePath);
+>                     }
+>                 }.execute(uri);
+>             }
+170a195,201
+>             if (mDownloadRequest != null) {
+>                 try {
+>                     mDownloadRequest.downloadImage(uri, mDownloadCallback);
+>                 } catch (RemoteException e) {
+>                     e.printStackTrace();
+>                 }
+>             }

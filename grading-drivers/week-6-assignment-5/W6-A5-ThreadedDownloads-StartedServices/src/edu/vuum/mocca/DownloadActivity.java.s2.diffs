@@ -1,0 +1,42 @@
+5a6
+> import android.os.Bundle;
+8d8
+< import android.util.Log;
+83,84c83,85
+<             	
+<                 activity.displayBitmap(msg.getData().getString(DownloadUtils.PATHNAME_KEY));
+---
+>             	Bundle data = msg.getData();
+>             	String pathname = data.getString(DownloadUtils.PATHNAME_KEY);
+>             	outerClass.get().displayBitmap(pathname);
+108,112d108
+<         Intent intent = null;
+<         String url = getUrlString();
+<         
+<         Log.d(DownloadActivity.class.getSimpleName(),
+<                 "Downloading " + url);
+119,125c115,116
+<             // Obtain the requested URL from the user input.
+< 
+<             // Create an Intent to download an image in the background via
+<             // a Service.
+<             intent = DownloadIntentService.makeIntent(this,
+<                 								handler,
+<                 								url);
+---
+>         	Intent intentService = DownloadIntentService.makeIntent(this, handler, getUrlString());
+>         	startService(intentService);
+134,137c125,126
+<             intent = ThreadPoolDownloadService.makeIntent(this,
+<             								handler,
+<             								url);
+<            
+---
+>         	Intent intentThread = ThreadPoolDownloadService.makeIntent(this, handler, getUrlString());
+>         	startService(intentThread);
+144,148d132
+<         // Start the DownloadService.
+<     	if (intent != null) 
+<     		startService(intent);
+< 
+< 

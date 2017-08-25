@@ -1,0 +1,4 @@
+50c50
+< 				StorageUtilities.SECURITY_PRIVATE, 
+---
+> 				StorageUtilities.SECURITY_PRIVATE, // MAX_SECURITY is not recognized as a value to enforce private security

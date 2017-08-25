@@ -1,0 +1,34 @@
+79c79
+<                 mDownloadCall = null;
+---
+>                 mDownloadCall = DownloadCall.Stub.asInterface(service);
+112c112
+<                 mDownloadRequest = null;
+---
+>                 mDownloadRequest = DownloadRequest.Stub.asInterface(service);
+148c148,154
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable() {
+> 					@Override
+> 					public void run() {
+> 						displayBitmap(imagePathname);
+> 					}
+> 				};
+> 				runOnUiThread(displayRunnable);
+164a171,177
+>         	try {
+>         		if (mDownloadCall != null) {
+>         			displayBitmap(mDownloadCall.downloadImage(uri));
+>         		}
+>         	} catch (RemoteException e) {
+>         	    Log.e(TAG, "RemoteException when trying to download synchronously", e);
+>         	}
+170a184,190
+>         	try {
+>         		if (mDownloadRequest != null) {
+>         			mDownloadRequest.downloadImage(uri, mDownloadCallback);
+>         		}
+> 	    	} catch (RemoteException e) {
+> 	    	    Log.e(TAG, "RemoteException when trying to download asynchronously", e);
+> 	    	}

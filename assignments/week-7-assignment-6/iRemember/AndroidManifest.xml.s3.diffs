@@ -1,0 +1,16 @@
+22a23
+>     
+28c29,30
+<         android:theme="@style/AppTheme" >
+---
+>         android:theme="@style/AppTheme"
+>          >
+33c35,36
+<         <activity android:name="edu.vuum.mocca.ui.LoginActivity">
+---
+>         <activity android:name="edu.vuum.mocca.ui.LoginActivity"
+>             android:exported="false"> <!-- edited here!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+56c59
+<             android:permission="android.permission.RECORD_AUDIO">
+---
+>             android:exported="false"> <!-- edited here!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->

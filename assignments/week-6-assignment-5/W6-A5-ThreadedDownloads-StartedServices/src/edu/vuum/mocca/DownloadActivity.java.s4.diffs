@@ -1,0 +1,162 @@
+5d4
+< import android.content.Intent;
+8d6
+< import android.util.Log;
+14,40c12,34
+<  * ThreadedDownloads application.  It allows the user to input the URL
+<  * of an image and download that image using one of two different
+<  * Android Service implementations.  When the service is done
+<  * downloading the image, it stores it on the Android file system,
+<  * then notifies this activity using the Messenger IPC mechanism
+<  * discussed in the class.
+<  * 
+<  * Starting services to run synchronously from the asynchronous UI
+<  * Thread is an example of the Half-Sync/Half-Async Pattern.  Starting
+<  * services using Intents is an example of the Command Processor
+<  * Pattern. This activity, the Creator, creates a Command in the form
+<  * of an Intent. The Intent is received by the service process, which
+<  * plays the role of the Executor.
+<  * 
+<  * Returning a result using Messages and Handlers is an example of the
+<  * Active Object Pattern. The Service must invoke a method to update
+<  * the UI. However, the service thread is not allowed to interact with
+<  * the UI. To decouple the invocation of this method from execution,
+<  * the Service encapsulates the request in a Message, which plays the
+<  * role of Active Object. The message is then passed to the UI
+<  * thread's handler, which eventually executes the request on the UI
+<  * Thread.
+<  * 
+<  * Note: all UI functionality has been factored out into
+<  * DownloadBase. If you wish to display an image, use
+<  * displayBitmap(). If you want to get the URL from the EditText
+<  * object, use getUrlString().
+---
+>  * ThreadedDownloads application. It allows the user to input the URL of an
+>  * image and download that image using one of two different Android Service
+>  * implementations. When the service is done downloading the image, it stores it
+>  * on the Android file system, then notifies this activity using the Messenger
+>  * IPC mechanism discussed in the class.
+>  * 
+>  * Starting services to run synchronously from the asynchronous UI Thread is an
+>  * example of the Half-Sync/Half-Async Pattern. Starting services using Intents
+>  * is an example of the Command Processor Pattern. This activity, the Creator,
+>  * creates a Command in the form of an Intent. The Intent is received by the
+>  * service process, which plays the role of the Executor.
+>  * 
+>  * Returning a result using Messages and Handlers is an example of the Active
+>  * Object Pattern. The Service must invoke a method to update the UI. However,
+>  * the service thread is not allowed to interact with the UI. To decouple the
+>  * invocation of this method from execution, the Service encapsulates the
+>  * request in a Message, which plays the role of Active Object. The message is
+>  * then passed to the UI thread's handler, which eventually executes the request
+>  * on the UI Thread.
+>  * 
+>  * Note: all UI functionality has been factored out into DownloadBase. If you
+>  * wish to display an image, use displayBitmap(). If you want to get the URL
+>  * from the EditText object, use getUrlString().
+44,46c38,40
+<      * This is the handler used for handling messages sent by a
+<      * Messenger.  It receives a message containing a pathname to an
+<      * image and displays that image in the ImageView.
+---
+> 	 * This is the handler used for handling messages sent by a Messenger. It
+> 	 * receives a message containing a pathname to an image and displays that
+> 	 * image in the ImageView.
+48,49c42,43
+<      * The handler plays several roles in the Active Object pattern,
+<      * including Proxy, Future, and Servant.
+---
+> 	 * The handler plays several roles in the Active Object pattern, including
+> 	 * Proxy, Future, and Servant.
+59,60c53,54
+<     	 * A constructor that gets a weak reference to the enclosing class.
+<     	 * We do this to avoid memory leaks during Java Garbage Collection.
+---
+> 		 * A constructor that gets a weak reference to the enclosing class. We
+> 		 * do this to avoid memory leaks during Java Garbage Collection.
+62c56,58
+<     	 * @see https://groups.google.com/forum/#!msg/android-developers/1aPZXZG6kWk/lIYDavGYn5UJ
+---
+> 		 * @see https 
+> 		 *      ://groups.google.com/forum/#!msg/android-developers/1aPZXZG6kWk
+> 		 *      /lIYDavGYn5UJ
+64c60
+<     	public MessengerHandler(DownloadActivity outer) {
+---
+> 		public MessengerHandler(final DownloadActivity outer) {
+70c66
+< 		public void handleMessage(Message msg) {
+---
+> 		public void handleMessage(final Message msg) {
+83,84c79,81
+<             	
+<                 activity.displayBitmap(msg.getData().getString(DownloadUtils.PATHNAME_KEY));
+---
+> 				final String pathName = (String) msg.getData().get(
+> 						DownloadUtils.PATHNAME_KEY);
+> 				activity.displayBitmap(pathName);
+90,91c87,88
+<      * Instantiate the MessengerHandler, passing in the
+<      * DownloadActivity to be stored as a WeakReference
+---
+> 	 * Instantiate the MessengerHandler, passing in the DownloadActivity to be
+> 	 * stored as a WeakReference
+99,101c96,98
+<      * Start a service using startService() or make a call to a Bound
+<      * Service using an AIDL interface.  The action performed depends
+<      * on the button pressed.
+---
+> 	 * Start a service using startService() or make a call to a Bound Service
+> 	 * using an AIDL interface. The action performed depends on the button
+> 	 * pressed.
+103,104c100,101
+<      * To get the URL from the EditText, please use getUrlString()
+<      * defined in DownloadBase.
+---
+> 	 * To get the URL from the EditText, please use getUrlString() defined in
+> 	 * DownloadBase.
+106c103
+<     public void runService(View view) {
+---
+> 	public void runService(final View view) {
+108,112d104
+<         Intent intent = null;
+<         String url = getUrlString();
+<         
+<         Log.d(DownloadActivity.class.getSimpleName(),
+<                 "Downloading " + url);
+119d110
+<             // Obtain the requested URL from the user input.
+121,127c112,114
+<             // Create an Intent to download an image in the background via
+<             // a Service.
+<             intent = DownloadIntentService.makeIntent(this,
+<                 								handler,
+<                 								url);
+< 
+<             which = "Starting IntentService";
+---
+> 			startService(DownloadIntentService.makeIntent(getBaseContext(),
+> 					handler, getUrlString()));
+> 			which = "Starting DownloadIntentService";
+134,138c121,122
+<             intent = ThreadPoolDownloadService.makeIntent(this,
+<             								handler,
+<             								url);
+<            
+< 
+---
+> 			startService(ThreadPoolDownloadService.makeIntent(getBaseContext(),
+> 					handler, getUrlString()));
+144,148d127
+<         // Start the DownloadService.
+<     	if (intent != null) 
+<     		startService(intent);
+< 
+< 
+151,153c130
+<     	Toast.makeText(this,
+<                        which,
+<                        Toast.LENGTH_SHORT).show();
+---
+> 		Toast.makeText(this, which, Toast.LENGTH_SHORT).show();

@@ -1,0 +1,32 @@
+9a10
+> import android.widget.EditText;
+79c80
+<                 mDownloadCall = null;
+---
+>                 mDownloadCall = DownloadCall.Stub.asInterface(service);
+112c113
+<                 mDownloadRequest = null;
+---
+>                 mDownloadRequest = DownloadRequest.Stub.asInterface(service);
+148c149,155
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable() {
+> 					@Override
+> 					public void run() {
+> 						displayBitmap(imagePathname);
+> 					}
+>                 };
+>                 runOnUiThread(displayRunnable);
+164a172,176
+>         	  try {
+>         		  displayBitmap(mDownloadCall.downloadImage(uri));
+>         	  } catch (RemoteException e) {
+>         	      e.printStackTrace();
+>         	  }
+170a183,187
+>         	try {
+>         		mDownloadRequest.downloadImage(uri, mDownloadCallback);
+>         	} catch(RemoteException e) {
+>       	      e.printStackTrace();
+>       	    }

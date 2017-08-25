@@ -1,0 +1,128 @@
+9,10d8
+< import android.net.Uri;
+< import android.os.AsyncTask;
+18,21c16,18
+<  * @brief This Service handles downloading several files concurrently
+<  *        within a pool of Threads.  When it is created, it creates a
+<  *        ThreadPoolExecutor using the newFixedThreadPool() method of
+<  *        the Executors class.
+---
+>  * @brief This Service handles downloading several files concurrently within a
+>  *        pool of Threads. When it is created, it creates a ThreadPoolExecutor
+>  *        using the newFixedThreadPool() method of the Executors class.
+23,27c20,23
+<  *        When this Service is started, it should be supplied with a
+<  *        URI for download and a Messenger.  It downloads the URI
+<  *        supplied, stores it on the Android file system, then returns
+<  *        the pathname of the downloaded file using the supplied
+<  *        Messenger.
+---
+>  *        When this Service is started, it should be supplied with a URI for
+>  *        download and a Messenger. It downloads the URI supplied, stores it on
+>  *        the Android file system, then returns the pathname of the downloaded
+>  *        file using the supplied Messenger.
+30,31c26,27
+<  *        Half-Sync/Half-Async pattern.  It also implements a variant
+<  *        of the Factory Method pattern.
+---
+>  *        Half-Sync/Half-Async pattern. It also implements a variant of the
+>  *        Factory Method pattern.
+35,36c31,32
+<      * A class constant that determines the maximum number of threads
+<      * used to service download requests.
+---
+> 	 * A class constant that determines the maximum number of threads used to
+> 	 * service download requests.
+58,59c54,55
+<      * Make an intent that will start this service if supplied to
+<      * startService() as a parameter.
+---
+> 	 * Make an intent that will start this service if supplied to startService()
+> 	 * as a parameter.
+61,64c57,63
+<      * @param context		The context of the calling component.
+<      * @param handler		The handler that the service should
+<      *                          use to respond with a result  
+<      * @param uri               The web URL of a file to download
+---
+> 	 * @param context
+> 	 *            The context of the calling component.
+> 	 * @param handler
+> 	 *            The handler that the service should use to respond with a
+> 	 *            result
+> 	 * @param uri
+> 	 *            The web URL of a file to download
+72,74c71,72
+<     public static Intent makeIntent(Context context,
+<                                     Handler handler,
+<                                     String uri) {
+---
+> 	public static Intent makeIntent(final Context context,
+> 			final Handler handler, final String uri) {
+78,81d75
+<     	return DownloadUtils.makeMessengerIntent(context,
+<                 							ThreadPoolDownloadService.class,
+<                 							handler,
+<                 							uri);
+82a77,78
+> 		return DownloadUtils.makeMessengerIntent(context,
+> 				ThreadPoolDownloadService.class, handler, uri);
+86,87c82,83
+<      * Hook method called when a component calls startService() with
+<      * the proper Intent.
+---
+> 	 * Hook method called when a component calls startService() with the proper
+> 	 * Intent.
+90,92c86,87
+< 	public int onStartCommand(final Intent intent,
+<                               int flags,
+<                               int startId) {
+---
+> 	public int onStartCommand(final Intent intent, final int flags,
+> 			final int startId) {
+99c94,95
+<         // a Messenger who's Bundle key is defined by DownloadUtils.MESSENGER_KEY.
+---
+> 		// a Messenger who's Bundle key is defined by
+> 		// DownloadUtils.MESSENGER_KEY.
+101c97,99
+<         Runnable downloadRunnable = new Runnable() {
+---
+> 		final Runnable downloadRunnable = new Runnable() {
+> 
+> 			@Override
+103,104c101,105
+<         		// extract file name
+<                 Uri uri = intent.getData();
+---
+> 				DownloadUtils.downloadAndRespond(
+> 						getBaseContext(),
+> 						intent.getData(),
+> 						(Messenger) intent.getExtras().get(
+> 								DownloadUtils.MESSENGER_KEY));
+106,114d106
+<                 // Extract the Messenger.
+<                 Messenger messenger = (Messenger)
+<                         intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+< 
+<                 // Download the requested image..
+<                 
+<                 DownloadUtils.downloadAndRespond(getBaseContext(),
+<                         uri,
+<                         messenger);
+128,130c120,121
+<      * Called when the service is destroyed, which is the last call
+<      * the Service receives informing it to clean up any resources it
+<      * holds.
+---
+> 	 * Called when the service is destroyed, which is the last call the Service
+> 	 * receives informing it to clean up any resources it holds.
+141,142c132
+<      * Return null since this class does not implement a Bound
+<      * Service.
+---
+> 	 * Return null since this class does not implement a Bound Service.
+145c135
+< 	public IBinder onBind (Intent intent) {
+---
+> 	public IBinder onBind(final Intent intent) {

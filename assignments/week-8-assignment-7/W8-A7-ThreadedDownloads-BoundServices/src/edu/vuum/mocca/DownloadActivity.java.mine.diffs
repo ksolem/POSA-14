@@ -1,0 +1,71 @@
+5a6
+> import android.os.AsyncTask;
+79c80,84
+<                 mDownloadCall = null;
+---
+>                 try {
+>                     mDownloadCall =  DownloadCall.Stub.asInterface(service);
+>                 } catch (IllegalArgumentException e) { // Should not be possible
+>                     e.printStackTrace();
+>                 }
+112c117,121
+<                 mDownloadRequest = null;
+---
+>                 try {
+>                     mDownloadRequest =  DownloadRequest.Stub.asInterface(service);
+>                 } catch (IllegalArgumentException e) { // Should not be possible
+>                     e.printStackTrace();
+>                 }
+148c157,162
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable() {
+>                     public void run() {
+>                         displayBitmap(imagePathname);
+>                     }
+>                 };
+>                 runOnUiThread(displayRunnable);
+164a179,204
+>             if (mDownloadCall != null) {
+> 
+>                 // Use an AsyncTask to download the image in a
+>                 // separate thread and then display it in the UI thread.
+>                 new AsyncTask<Uri, Void, String> () {
+> 
+>                     // Download the image via a synchronous
+>                     // two-way method call, which runs in a background
+>                     // thread to avoid blocking the UI thread.
+>                     protected String doInBackground(Uri... uri) {
+>                         try {
+>                             return mDownloadCall.downloadImage(uri[0]);
+>                         } catch (RemoteException e) {
+>                             e.printStackTrace();
+>                         }
+>                         return null;
+>                     }
+> 
+>                     // Display the results in the UI Thread.
+>                     protected void onPostExecute(String pathname) {
+>                         displayBitmap(pathname);
+>                     }
+>                 }.execute(uri);
+>             } else {
+>                 Log.d(TAG, "mDownloadCall was null.");
+>             }
+170a211,226
+> 
+>         	if (mDownloadRequest != null) {
+> 
+>         		try {
+>         			// Invoke a one-way AIDL call, which does not block
+>         			// the client.  The results are returned via the
+>         			// sendPath() method of the mDownlaodResults
+>         			// callback object, which runs in a Thread from the
+>         			// Thread pool managed by the Binder framework.
+>         			mDownloadRequest.downloadImage(uri, mDownloadCallback);
+>         		} catch (RemoteException e) {
+>         			Log.e(TAG, "RemoteException:" + e.getMessage());
+>         		}
+>         	} else {
+>         		Log.d(TAG, "mDownloadRequest was null.");
+>         	}

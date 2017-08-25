@@ -1,0 +1,57 @@
+19c19
+< public class LoginActivity extends StoryActivityBase{
+---
+> public class LoginActivity extends StoryActivityBase {
+38c38
+< 		//Find the edit texts
+---
+> 		// Find the edit texts
+47,48c47,49
+< 	public static File getLoginFile (Context context) {
+< 		return StorageUtilities.getOutputMediaFile(context, 	// Line 48
+---
+> 	public static File getLoginFile(Context context) {
+> 		return StorageUtilities.getOutputMediaFile(
+> 				context, // Line 48
+50,51c51,59
+< 				StorageUtilities.SECURITY_PRIVATE, 
+< 				"login.txt");
+---
+> 				StorageUtilities.SECURITY_PRIVATE, "login.txt"); // Changed dto
+> 																	// SECURITY_PRIVATE
+> 																	// as it
+> 																	// will
+> 																	// default
+> 																	// to public
+> 																	// if not
+> 																	// set to
+> 																	// private
+80c88,89
+< 	 * Returns the last password input into this activity, or null if one has not been set
+---
+> 	 * Returns the last password input into this activity, or null if one has
+> 	 * not been set
+88c97,98
+< 		// If it already exists, read the login information from the file and display it
+---
+> 		// If it already exists, read the login information from the file and
+> 		// display it
+105d114
+< 	
+109,110c118,120
+< 	public void loginClicked(View v){
+< 		// Save the input login information in a file so that the rest of the app can access it.
+---
+> 	public void loginClicked(View v) {
+> 		// Save the input login information in a file so that the rest of the
+> 		// app can access it.
+113c123,124
+< 			BufferedWriter writer = new BufferedWriter(new FileWriter(loginFile));	// Line 113
+---
+> 			BufferedWriter writer = new BufferedWriter(
+> 					new FileWriter(loginFile)); // Line 113
+121,122c132
+< 		}
+< 		finally {
+---
+> 		} finally {

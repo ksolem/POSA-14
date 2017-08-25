@@ -1,0 +1,9 @@
+55,59c55,56
+<             android:label="@string/title_activity_sound_record"
+<             android:permission="android.permission.RECORD_AUDIO">
+<             <intent-filter> 										<!-- Line 56 -->
+<                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+<             </intent-filter>
+---
+>             android:label="@string/title_activity_sound_record">
+>             <!-- Removed the intent-filter to make the SoundRecordActivity private -->

@@ -1,0 +1,8 @@
+54a55,56
+>             	String pathname = DownloadUtils.downloadFile(getBaseContext(), uri);
+>             	callback.sendPath(pathname);
+78c80,81
+<         return null;
+---
+>         return new Intent(context,
+>                 DownloadBoundServiceAsync.class);

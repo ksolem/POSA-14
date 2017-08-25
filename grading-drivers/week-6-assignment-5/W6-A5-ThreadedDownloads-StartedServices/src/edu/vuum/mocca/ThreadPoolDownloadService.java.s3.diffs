@@ -1,0 +1,35 @@
+9,10d8
+< import android.net.Uri;
+< import android.os.AsyncTask;
+77a76
+> 
+81,82c80,81
+<                 							uri);
+< 
+---
+>                 uri
+>         );
+101,114c100,107
+<         Runnable downloadRunnable = new Runnable() {
+<         	public void run() {
+<         		// extract file name
+<                 Uri uri = intent.getData();
+< 
+<                 // Extract the Messenger.
+<                 Messenger messenger = (Messenger)
+<                         intent.getExtras().get(DownloadUtils.MESSENGER_KEY);
+< 
+<                 // Download the requested image..
+<                 
+<                 DownloadUtils.downloadAndRespond(getBaseContext(),
+<                         uri,
+<                         messenger);
+---
+> 
+>         Runnable downloadRunnable = new Runnable(){
+>             @Override
+>             public void run(){
+>                 DownloadUtils.downloadAndRespond(getApplicationContext(),
+>                         intent.getData(),
+>                         (Messenger) intent.getExtras().get(DownloadUtils.MESSENGER_KEY)
+>                 );

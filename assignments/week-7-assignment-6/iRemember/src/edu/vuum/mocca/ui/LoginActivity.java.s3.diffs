@@ -1,0 +1,14 @@
+29c29
+< 	static final int MAX_SECURITY = Integer.MAX_VALUE;
+---
+> 	static final int MAX_SECURITY = 1; //Integer.MAX_VALUE; ///edited here!!!!!!!!!!!!!!!!!!!!!!!
+50c50
+< 				StorageUtilities.SECURITY_PRIVATE, 
+---
+> 				MAX_SECURITY, 
+118a119
+> 			openListStoryActivity();	// Line 123
+123c124
+< 			openListStoryActivity();	// Line 123
+---
+> 			

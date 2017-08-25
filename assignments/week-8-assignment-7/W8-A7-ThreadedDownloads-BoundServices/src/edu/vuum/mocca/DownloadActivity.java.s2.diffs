@@ -1,0 +1,35 @@
+79c79
+<                 mDownloadCall = null;
+---
+>             	mDownloadCall = DownloadCall.Stub.asInterface((IBinder)service);
+111,112c111,112
+< 
+<                 mDownloadRequest = null;
+---
+>             	Log.d(TAG, "Async ComponentName: " + name);
+>                 mDownloadRequest = DownloadRequest.Stub.asInterface((IBinder)service);
+148c148,153
+<                 Runnable displayRunnable = null;
+---
+>                 Runnable displayRunnable = new Runnable () {
+>                 	public void run() {
+>                 		displayBitmap(imagePathname);
+>                 	};
+>                 };
+>                 runOnUiThread(displayRunnable);
+164a170,176
+>         	if (uri != null) {
+>         		try {
+>         			displayBitmap(mDownloadCall.downloadImage(uri));
+>         		} catch (RemoteException e) {
+>         			Log.e(TAG, "RemoteException:" + e.getMessage());
+>         		}
+>         	}
+170a183,189
+>         	if (uri != null) {
+>         		try {
+>         			mDownloadRequest.downloadImage(uri, mDownloadCallback);
+>         		} catch (RemoteException e) {
+>         			Log.e(TAG, "RemoteException:" + e.getMessage());
+>         		}
+>         	}
