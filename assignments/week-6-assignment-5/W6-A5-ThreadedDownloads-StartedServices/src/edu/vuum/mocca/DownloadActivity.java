@@ -138,7 +138,7 @@ public class DownloadActivity extends DownloadBase {
 
             which = "Starting ThreadPoolDownloadService";
             break;
-        
+       
         }
     	
         // Start the DownloadService.

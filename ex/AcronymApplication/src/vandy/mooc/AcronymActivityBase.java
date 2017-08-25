@@ -1,4 +1,4 @@
-package edu.vuum.mocca;
+package vandy.mooc;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class AcronymActivityBase extends Activity {
     protected AcronymDataArrayAdapter adapter;
     
     /**
-     * Acronym entered by the usre.
+     * Acronym entered by the user.
      */
     protected EditText mEditText;
 
